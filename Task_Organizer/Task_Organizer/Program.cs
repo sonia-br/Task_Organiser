@@ -16,11 +16,6 @@ namespace Task_Organizer;
 //     3. Adding comments - for ex. comments can be attached to a task
 // 5. Menu for task management
 
-//Parts:
-// 1. Classes for Tasks, Task Manager
-// 2. User menu
-// 3. Creating and editing tasks
-// 4. Ranking and sorting logic
 
 class Program
 {
@@ -36,8 +31,9 @@ class Program
             Console.WriteLine("3. Find task");
             Console.WriteLine("4. Delete task");
             Console.WriteLine("5. Filter tasks");
-            Console.WriteLine("6. View all tasks");
-            Console.WriteLine("7. Exit menu");
+            Console.WriteLine("6. Sort tasks");
+            Console.WriteLine("7. View all tasks");
+            Console.WriteLine("8. Exit menu");
         
             int userChoice = Convert.ToInt32(Console.ReadLine());
         
@@ -50,12 +46,11 @@ class Program
                 case 2:
                     Console.WriteLine("2.Edit existing task:");
                     Console.WriteLine("Type in name of the task");
-                    string taskName = Console.ReadLine();
-                    TaskManager.EditTask(taskName);
+                    TaskManager.EditTask();
                     break;
                 case 3:
                     Console.WriteLine("3.Find task - Type in the name of the task:");
-                    Task taskToFind = TaskManager.FindTaskByName(Console.ReadLine());
+                    Task taskToFind = TaskManager.FindTaskByName();
                     taskToFind.PrintTaskInfo(taskToFind);
                     break;
                 case 4:

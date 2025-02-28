@@ -1,4 +1,5 @@
 using System.Data;
+using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 namespace Task_Organizer;
 
@@ -57,8 +58,6 @@ public class Task
         this.deadline = deadline;
         this.comment = comment;
     }
-    
-    // ADD CASE HANDLING INSIDE SETX
 
     public int GetId()
     {
@@ -72,6 +71,7 @@ public class Task
     public void UpdateName(string newName)
     {
         name = newName;
+        Console.WriteLine("Name is changed to '" + name + "'.");
     }
     public string GetName()
     {
@@ -131,7 +131,7 @@ public class Task
             int newPriority = Convert.ToInt32(Console.ReadLine());
             if (newPriority == 1 || newPriority == 2 || newPriority == 3)
             {
-                priority = (TaskPriority)newPriority; // converting into enum
+                priority = (TaskPriority)newPriority; 
                 if (this.priority == TaskPriority.Low)
                 {
                     Console.WriteLine("Priority is changed to " + priority);
@@ -189,16 +189,16 @@ public class Task
                 switch (this.status)
                 {
                     case TaskStatus.NotStarted:
-                        Console.WriteLine("Status is changed to " + this.priority);
+                        Console.WriteLine("Status is changed to " + this.status);
                         break;
                     case TaskStatus.InProgress:
-                        Console.WriteLine("Status is changed to " + this.priority);
+                        Console.WriteLine("Status is changed to " + this.status);
                         break;
                     case TaskStatus.Paused:
-                        Console.WriteLine("Status is changed to " + this.priority);
+                        Console.WriteLine("Status is changed to " + this.status);
                         break;
                     case TaskStatus.Finished:
-                        Console.WriteLine("Status is changed to " + this.priority);
+                        Console.WriteLine("Status is changed to " + this.status);
                         break;
                         
                 }
@@ -216,11 +216,43 @@ public class Task
     {
         return status;
     }
-    
-    
-    public void UpdateDeadline(DateOnly newDeadline)
+
+    public static DateOnly ValidateDeadline()
     {
-        deadline = newDeadline;
+        bool dateIsCorrect = false;
+        DateOnly deadlineValid = default;
+        do
+        {
+            string dateToValidate = Console.ReadLine();
+            if (DateOnly.TryParse(dateToValidate, out deadlineValid))
+            {
+                dateIsCorrect = true;
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Try again:");
+            }
+        } while (!dateIsCorrect);
+
+        return deadlineValid;
+    }
+    public void UpdateDeadline()
+    {
+        bool dateIsCorrect = false;
+        do
+        {
+            string dateToUpdate = Console.ReadLine();
+            if (DateOnly.TryParse(dateToUpdate, out deadline))
+            {
+                this.deadline = DateOnly.Parse(dateToUpdate);
+                dateIsCorrect = true;
+            }
+            else
+            {
+                Console.WriteLine("Invalid input. Try again:");
+            }
+        } while (!dateIsCorrect);
+        
     }
     public DateOnly GetDeadline()
     {

@@ -15,3 +15,4 @@
 /Users/bread/Desktop/UNI/B1 Programming/Examination project/Task_Organizer/Task_Organizer/obj/Debug/net8.0/Task_Organizer.csproj.AssemblyReference.cache
 /Users/bread/Desktop/UNI/B1 Programming/Examination project/Task_Organizer/Task_Organizer/bin/Debug/net8.0/Newtonsoft.Json.dll
 /Users/bread/Desktop/UNI/B1 Programming/Examination project/Task_Organizer/Task_Organizer/obj/Debug/net8.0/Task_Org.C4EB0E0E.Up2Date
+/Users/bread/Desktop/UNI/B1 Programming/Examination project/Task_Organizer/Task_Organizer/obj/Debug/net8.0/Task_Organizer.sourcelink.json

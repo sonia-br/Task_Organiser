@@ -84,7 +84,7 @@ public static class TaskManager
         Task.TaskStatus status = Task.TaskStatus.NotStarted;
 
         Console.WriteLine("The deadline of the task (dd.mm.yyyy):");
-        DateOnly deadline = DateOnly.Parse(Console.ReadLine());
+        DateOnly deadline = Task.ValidateDeadline();
 
         Console.WriteLine("Add comments to this task:");
         string comment = Console.ReadLine();
@@ -117,26 +117,20 @@ public static class TaskManager
        
     }
 
-    public static void EditTask(string name)
+    public static void EditTask()
     {
-        Task taskToEdit = FindTaskByName(name);
-        
-        if (taskToEdit == null)
-        {
-            Console.WriteLine("The task doesn't exist");
-            return;
-        }
+        Task taskToEdit = FindTaskByName();
 
         bool menuExit = false;
         do
         {
             Console.WriteLine("Which field do you want to edit?:");
-        Console.WriteLine("Type in the corresponding number:\n" +
+            Console.WriteLine("Type in the corresponding number:\n" +
                           "1 - name; 2 - description; 3 - performer; 4 - priority; 5 - status;\n" +
                           "6 - deadline; 7 - comment; 8 - Show task info\n" +
                           "Press 9 to exit menu.");
-        int userChoice = Convert.ToInt32(Console.ReadLine());
-        switch (userChoice)
+            int userChoice = Convert.ToInt32(Console.ReadLine());
+            switch (userChoice)
             {
                 case 1:
                     Console.WriteLine("Type in the new name:");
@@ -165,8 +159,7 @@ public static class TaskManager
                     break;
                 case 6:
                     Console.WriteLine("Type in the new deadline:");
-                    DateOnly newDeadline = DateOnly.Parse(Console.ReadLine());
-                    taskToEdit.UpdateDeadline(newDeadline);
+                    taskToEdit.UpdateDeadline();
                     break;
                 case 7:
                     Console.WriteLine("Type in the new comment:");
@@ -188,17 +181,29 @@ public static class TaskManager
         SaveTasksToFile();
     }
 
-    public static Task FindTaskByName(string name)
+    public static Task FindTaskByName()
     {
-        foreach (Task task in tasks)
+        Task taskToFind = null;
+        bool nameIsCorrect = false;
+        do
         {
-            if (name.ToLower() == task.GetName().ToLower())
+            string name = Console.ReadLine();
+            foreach (Task task in tasks)
             {
-                return task;
+                if (name.ToLower() == task.GetName().ToLower())
+                {
+                    taskToFind = task;
+                    nameIsCorrect = true;
+                }
             }
-        }
-        Console.WriteLine("Task with this name doesn't exist.");
-        return null;
+
+            if (!nameIsCorrect)
+            {
+                Console.WriteLine("Task with this name doesn't exist.");
+                Console.WriteLine("Try again:");
+            }
+        } while (!nameIsCorrect);
+        return taskToFind;
     }
 
     public static void ShowAllTasks()
@@ -223,8 +228,7 @@ public static class TaskManager
         do
         {
             Console.WriteLine("Type in the name of the task to delete:");
-            string taskNameToDelete = Console.ReadLine();
-            Task taskToDelete = FindTaskByName(taskNameToDelete);
+            Task taskToDelete = FindTaskByName();
             if (taskToDelete != null)
             {
                 tasks.Remove(taskToDelete);
@@ -372,6 +376,64 @@ public static class TaskManager
 
     public static void SortTasks()
     {
+        bool menuExit = false;
+        do
+        {
+            Console.WriteLine("1 - tasks with higher priority first; 2 - tasks with closer deadline first;" +
+                              "3 - highest priority and closest date; 4 - exit to main menu");
+            int userChoice = Convert.ToInt32(Console.ReadLine());
+            switch (userChoice)
+            {
+                case 1:
+                    SortByPriority();
+                    break;
+                case 2:
+                    SortByDeadline();
+                    break;
+                case 3:
+                    SortByPriorityAndDeadline();
+                    break;
+                case 4:
+                    menuExit = true;
+                    break;
+                default:
+                    Console.WriteLine("Invalid input. Choose one of four numbers.");
+                    break;
+            }
+        } while (!menuExit);
+    }
+    
+    public static void SortByPriority()
+    {
+        var sortedTasks = tasks
+            .OrderBy(p => p.GetPriority());
+
+        foreach (Task task in sortedTasks)
+        {
+            task.PrintTaskInfo(task);
+        }
+    }
+    public static void SortByDeadline()
+    {
+        var sortedTasks = tasks
+            .OrderBy(p => p.GetDeadline());
+
+        foreach (Task task in sortedTasks)
+        {
+            task.PrintTaskInfo(task);
+        }
         
     }
+
+     public static void SortByPriorityAndDeadline()
+     {
+         var sortedTasks = tasks
+                 .OrderBy(p => p.GetPriority())
+                 .ThenBy(p => p.GetDeadline());
+
+         foreach (Task task in sortedTasks)
+         {
+             task.PrintTaskInfo(task);
+         }
+     }
 }
