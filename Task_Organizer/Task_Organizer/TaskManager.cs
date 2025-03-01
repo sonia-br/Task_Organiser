@@ -30,11 +30,11 @@ public static class TaskManager
         if (File.Exists(filePath)) 
         {
             string json = File.ReadAllText(filePath);
-            List<Task> tasksToLoad = JsonConvert.DeserializeObject<List<Task>>(json); // convert json string into list of objects of class Task
+            List<Task> tasksToLoad = JsonConvert.DeserializeObject<List<Task>>(json); 
 
             if (tasksToLoad == null)
             {
-                tasksToLoad = new List<Task>(); //creating an empty list if there is nothing in the file
+                tasksToLoad = new List<Task>(); 
             }
             else if (tasksToLoad.Count > 0)
             {
@@ -53,7 +53,7 @@ public static class TaskManager
         }
         else
         {
-            return new List<Task>(); // if file does not exist, returns new empty list
+            return new List<Task>(); 
         }
     }
     public static void SaveTasksToFile()
